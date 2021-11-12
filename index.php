@@ -22,13 +22,17 @@
     <?php
         foreach($lists as $list){ ?>
             <div class="globalList">
-                <h1><?= $list[1] ?></h1>
-                <a href=<?= 'updateList.php?id='. $list[0]?>>edit</a>
+                <h1><?= $list[1] ?></h1> 
+                <a href=<?= 'editList.php?id='. $list[0]?>>Edit</a>
+                <a href=<?= 'deleteList.php?id='. $list[0]?>>Delete</a>
+                
                 <?php
                     foreach($rows as $row){ 
                         if ($row[3] == $list[0]){ ?>
                             <h2> <?= $row[1] ?> </h2>
                             <p class= "listItem"> <?= $row[2] ?> </p>
+                            <a href=<?= 'editItem.php?id='. $row[0]?>>Edit</a>
+                            <a href=<?= 'deleteItem.php?id='. $row[0]?>>Delete</a>
                         <?php } ?>
                     <?php } 
                 ?>
