@@ -1,12 +1,17 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Le oma</title>
-</head>
-<body>
+<?php
+    require_once "./database.php";
+    $conn = connectDB();
     
-</body>
-</html>
+    $title =  $_POST['title'];
+    $description = $_POST['description'];
+    $id = $_GET['id'];
+
+    $stmt = $conn->prepare("UPDATE `items` SET title = :title,  description = :description WHERE id = :id");
+    $stmt->bindParam(':id', $id);
+    $stmt->bindParam(':title', $title);
+    $stmt->bindParam(':description', $description);
+
+    $stmt->execute();
+
+    header("location: ./index.php");
+?>
