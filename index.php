@@ -1,4 +1,5 @@
 <?php
+    $status = array("Finished", "In-Progress", "Unfinished", "");
     require_once "./database.php";
     $conn = connectDB();
 
@@ -15,8 +16,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rick gaat dood op maandag</title>
-    <link rel="stylesheet" href="style.css">
+    <title>To-do List</title>
+    <link rel="stylesheet" href="assets/style.css">
 </head>
 <body>
     <?php
@@ -25,14 +26,46 @@
                 <h1><?= $list[0]. '</br>'. $list[1] ?></h1> 
                 <a href=<?= 'editList.php?id='. $list[0]?>>Edit</a>
                 <a href=<?= 'deleteList.php?id='. $list[0]?>>Delete</a>
-                
+                <p>Filter by</p>
+                <div class="dropdown">
+                    <button class="dropbtn">Select status</button>
+                    <div class="dropdown-content">
+                        <a href=<?= 'updateFilter.php?id='. $list[0]. '&status='. $status[0]?>>Finished</a>
+                        <a href=<?= 'updateFilter.php?id='. $list[0]. '&status='. $status[1]?>>In Progress</a>
+                        <a href=<?= 'updateFilter.php?id='. $list[0]. '&status='. $status[2]?>>Unfinished</a>
+                        <a href=<?= 'updateFilter.php?id='. $list[0]. '&status='. $status[3]?>>None</a>
+                    </div>
+                </div>
+
                 <?php
                     foreach($rows as $row){ 
-                        if ($row[3] == $list[0]){ ?>
+                        if ($row[3] == $list[0] && $list[2] == $row[4]){ ?>
                             <h2> <?=$row[1] ?> </h2>
                             <p class= "listItem"> <?= $row[2] ?> </p>
+                            <div class="dropdown">
+                                <button class="dropbtn"><?= $row[4] ?></button>
+                                <div class="dropdown-content">
+                                    <a href=<?= 'updateStatus.php?id='. $row[0]. '&status='. $status[0]?>>Finished</a>
+                                    <a href=<?= 'updateStatus.php?id='. $row[0]. '&status='. $status[1]?>>In Progress</a>
+                                    <a href=<?= 'updateStatus.php?id='. $row[0]. '&status='. $status[2]?>>Unfinished</a>
+                                </div>
+                            </div>
                             <a href=<?= 'editItem.php?id='. $row[0]?>>Edit</a>
                             <a href=<?= 'deleteItem.php?id='. $row[0]?>>Delete</a>
+                        <?php }else if($list[2] == null && $row[3] == $list[0]) {?>
+                            <h2> <?=$row[1] ?> </h2>
+                            <p class= "listItem"> <?= $row[2] ?> </p>
+                            <div class="dropdown">
+                                <button class="dropbtn"><?= $row[4] ?></button>
+                                <div class="dropdown-content">
+                                    <a href=<?= 'updateStatus.php?id='. $row[0]. '&status='. $status[0]?>>Finished</a>
+                                    <a href=<?= 'updateStatus.php?id='. $row[0]. '&status='. $status[1]?>>In Progress</a>
+                                    <a href=<?= 'updateStatus.php?id='. $row[0]. '&status='. $status[2]?>>Unfinished</a>
+                                </div>
+                            </div>
+                            <a href=<?= 'editItem.php?id='. $row[0]?>>Edit</a>
+                            <a href=<?= 'deleteItem.php?id='. $row[0]?>>Delete</a>
+
                         <?php } ?>
                     <?php } 
                 ?>
