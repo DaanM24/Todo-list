@@ -1,14 +1,10 @@
 <?php
     $status = array("Finished", "In-Progress", "Unfinished", "");
-    require_once "./database.php";
-    $conn = connectDB();
+    require "./functions.php";
 
-    $table = $conn->query("SELECT * FROM items ORDER BY `id`");
-    $rows = $table->fetchAll(PDO::FETCH_NUM);
-
-    $table = $conn->query("SELECT * FROM list ORDER BY `id`");
-    $lists = $table->fetchAll(PDO::FETCH_NUM);
+    $lists = retrieveLists();
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -18,57 +14,52 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>To-do List</title>
     <link rel="stylesheet" href="assets/style.css">
+    <!-- Latest compiled and minified CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Latest compiled JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 <body>
     <?php
         foreach($lists as $list){ ?>
             <div class="globalList">
-                <h1><?= $list[0]. '</br>'. $list[1] ?></h1> 
-                <a href=<?= 'editList.php?id='. $list[0]?>>Edit</a>
-                <a href=<?= 'deleteList.php?id='. $list[0]?>>Delete</a>
-                <p>Filter by</p>
-                <div class="dropdown">
-                    <button class="dropbtn">Select status</button>
-                    <div class="dropdown-content">
-                        <a href=<?= 'updateFilter.php?id='. $list[0]. '&status='. $status[0]?>>Finished</a>
-                        <a href=<?= 'updateFilter.php?id='. $list[0]. '&status='. $status[1]?>>In Progress</a>
-                        <a href=<?= 'updateFilter.php?id='. $list[0]. '&status='. $status[2]?>>Unfinished</a>
-                        <a href=<?= 'updateFilter.php?id='. $list[0]. '&status='. $status[3]?>>None</a>
+                <div class="listHeader">
+                    <h1><?= $list[0]. '</br>'. $list[1] ?></h1> 
+                    <a href=<?= 'editList.php?id='. $list[0]?>>Edit</a>
+                    <a href=<?= 'deleteList.php?id='. $list[0]?>>Delete</a>
+                    <p>Filter by</p>
+                    <div class="dropdown">
+                        <button class="dropbtn">Select status</button>
+                        <div class="dropdown-content">
+                            <a href=<?= 'updateFilter.php?id='. $list[0]. '&status='. $status[0]?>>Finished</a>
+                            <a href=<?= 'updateFilter.php?id='. $list[0]. '&status='. $status[1]?>>In Progress</a>
+                            <a href=<?= 'updateFilter.php?id='. $list[0]. '&status='. $status[2]?>>Unfinished</a>
+                            <a href=<?= 'updateFilter.php?id='. $list[0]. '&status='. $status[3]?>>None</a>
+                        </div>
                     </div>
                 </div>
+                
 
                 <?php
-                    foreach($rows as $row){ 
-                        if ($row[3] == $list[0] && $list[2] == $row[4]){ ?>
-                            <h2> <?=$row[1] ?> </h2>
-                            <p class= "listItem"> <?= $row[2] ?> </p>
-                            <div class="dropdown">
-                                <button class="dropbtn"><?= $row[4] ?></button>
-                                <div class="dropdown-content">
-                                    <a href=<?= 'updateStatus.php?id='. $row[0]. '&status='. $status[0]?>>Finished</a>
-                                    <a href=<?= 'updateStatus.php?id='. $row[0]. '&status='. $status[1]?>>In Progress</a>
-                                    <a href=<?= 'updateStatus.php?id='. $row[0]. '&status='. $status[2]?>>Unfinished</a>
-                                </div>
+                    $rows = retrieveItems($list[0]);
+                    foreach($rows as $row){ ?>
+                        <div class="task">
+                        <h2> <?=$row[1] ?> </h2>
+                        <p class= "listItem"> <?= $row[2] ?> </p>
+                        <div class="dropdown">
+                            <button class="dropbtn"><?= $row[4] ?></button>
+                            <div class="dropdown-content">
+                                <a href=<?= 'updateStatus.php?id='. $row[0]. '&status='. $status[0]?>>Finished</a>
+                                <a href=<?= 'updateStatus.php?id='. $row[0]. '&status='. $status[1]?>>In Progress</a>
+                                <a href=<?= 'updateStatus.php?id='. $row[0]. '&status='. $status[2]?>>Unfinished</a>
+                            </div>
                             </div>
                             <a href=<?= 'editItem.php?id='. $row[0]?>>Edit</a>
                             <a href=<?= 'deleteItem.php?id='. $row[0]?>>Delete</a>
-                        <?php }else if($list[2] == null && $row[3] == $list[0]) {?>
-                            <h2> <?=$row[1] ?> </h2>
-                            <p class= "listItem"> <?= $row[2] ?> </p>
-                            <div class="dropdown">
-                                <button class="dropbtn"><?= $row[4] ?></button>
-                                <div class="dropdown-content">
-                                    <a href=<?= 'updateStatus.php?id='. $row[0]. '&status='. $status[0]?>>Finished</a>
-                                    <a href=<?= 'updateStatus.php?id='. $row[0]. '&status='. $status[1]?>>In Progress</a>
-                                    <a href=<?= 'updateStatus.php?id='. $row[0]. '&status='. $status[2]?>>Unfinished</a>
-                                </div>
-                            </div>
-                            <a href=<?= 'editItem.php?id='. $row[0]?>>Edit</a>
-                            <a href=<?= 'deleteItem.php?id='. $row[0]?>>Delete</a>
-
-                        <?php } ?>
-                    <?php } 
-                ?>
+                        </div>
+                        
+                     <?php } ?>
 
                 
             </div>
@@ -113,5 +104,6 @@
                 submitListButton.hidden = true;
             }
         </script>
+        
 </body>
 </html>

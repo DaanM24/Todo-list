@@ -1,5 +1,5 @@
 <?php
-    require_once "./database.php";
+    require_once "./functions.php";
     $conn = connectDB();
 
     $id = $_GET['id'];

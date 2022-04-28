@@ -1,16 +1,16 @@
 <?php
-require_once "./database.php";
-$conn = connectDB();
+    require_once "./functions.php";
+    $conn = connectDB();
 
-$name =  $_POST['name'];
-$id = $_GET['id'];
+    $name =  $_POST['name'];
+    $id = $_GET['id'];
 
-$stmt = $conn->prepare("UPDATE `list` SET name = :name WHERE id = :id");
-$stmt->bindParam(':id', $id);
-$stmt->bindParam(':name', $name);
+    $stmt = $conn->prepare("UPDATE `list` SET name = :name WHERE id = :id");
+    $stmt->bindParam(':id', $id);
+    $stmt->bindParam(':name', $name);
 
-$stmt->execute();
+    $stmt->execute();
 
-header("location: ./index.php");
+    header("location: ./index.php");
 
 ?>

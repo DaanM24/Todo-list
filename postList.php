@@ -1,5 +1,5 @@
 <?php
-    require_once "./database.php";
+    require_once "./functions.php";
     $conn = connectDB();
 
     $name =  $_POST['name'];
