@@ -20,7 +20,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>rick word geupdate vandaag</title>
+    <title>Edit List</title>
 </head>
 <body>
     <h1><?= $list[1] ?></h1>

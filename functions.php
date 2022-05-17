@@ -11,8 +11,14 @@
 
 
         return $conn;
+
     }
 
+    /**
+     * Retrieves items from a specific list from the database.
+     * @param int    $listid this is the id of the current list
+     * @return array $rows   array with item rows from database
+     */
     function retrieveItems($listid){
         $conn = connectDB();
 
@@ -33,6 +39,8 @@
 
         $table = $conn->query("SELECT * FROM list ORDER BY `id`");
         $lists = $table->fetchAll(PDO::FETCH_NUM);
+
+        $conn = null;
 
         return $lists;
     }
