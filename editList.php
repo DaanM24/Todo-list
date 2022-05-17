@@ -27,7 +27,7 @@
     <div class = "submitForm">
         <form method="post" action=<?= './updateList.php?id='. $list[0]?>>  
             <b>Edit the list</b></br></br>
-            Title: <input type="text" name="name" id="name">
+            Title: <input type="text" name="name" id="name" value="<?= $list[1] ?>">
             <input type="submit" name="submit" value="Submit"> 
         </form>
     </div>

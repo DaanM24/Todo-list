@@ -23,9 +23,9 @@
     <p><?= $item[2] ?></p>
     <form method="post" action=<?= './updateItem.php?id='. $item[0]?>>  
         <b>Edit the item</b></br></br>
-        Title: <input type="text" name="title" id="title">
+        Title: <input type="text" name="title" id="title" value="<?= $item[1] ?>">
         </br></br>
-        Description: <textarea name="description" rows="5" cols="40" id="description" ></textarea>
+        Description: <textarea type="text" name="description" rows="5" cols="40" id="description" value="<?= $item[1] ?>" ></textarea>
         <input type="submit" name="submit" value="Submit"> 
     </form>
 </body>
